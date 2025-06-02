@@ -28,6 +28,12 @@ spring:
             - Path=/tela/**
           filters:
             - AuthFilter
+        - id: ms-pedido-service
+          uri: lb://ms-pedido-service
+          predicates:
+            - Path=/exportacion/**
+          filters:
+            - AuthFilter
 
 
 
