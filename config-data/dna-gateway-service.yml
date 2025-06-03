@@ -26,10 +26,13 @@ spring:
           uri: lb://ms-tela-service
           predicates:
             - Path=/tela/**
+          filters:
+
         - id: ms-pedido-service
           uri: lb://ms-pedido-service
           predicates:
             - Path=/exportacion/**
+          filters:
         - id: chatbot
           uri: lb://chatbot
           predicates:
