@@ -22,15 +22,58 @@ spring:
       enabled: true
       path: /h2-console
 
-  resilience4j:
-    circuitbreaker:
-      instances:
-        telaBuscarPorIdCB:
-          registerHealthIndicator: true
-          slidingWindowSize: 10
-          permittedNumberOfCallsInHalfOpenState: 3
-          slidingWindowType: TIME_BASED
-          minimumNumberOfCalls: 4
-          waitDurationInOpenState: 5s
-          failureRateThreshold: 50
-          eventConsumerBufferSize: 10
+resilience4j:
+  circuitbreaker:
+    # Configuración por defecto (se aplica a cualquier instancia que no tenga
+    # valores específicos en “instances”)
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10       # Número de llamadas para calcular tasa de fallos
+        minimumNumberOfCalls: 5     # Número mínimo de llamadas antes de evaluar estado
+        failureRateThreshold: 50    # % de fallos para abrir el circuito
+        waitDurationInOpenState: 30s # Tiempo que permanece abierto antes de intentar semiautomático
+        permittedNumberOfCallsInHalfOpenState: 3
+        eventConsumerBufferSize: 10
+
+    instances:
+      # CircuitBreaker usado en TelaFeing.buscarTelaPorId(...)
+      telaBuscarPorIdCB:
+        baseConfig: default
+        slidingWindowSize: 5        # Número de llamadas para evaluar este CB en particular
+        failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+        minimumNumberOfCalls: 3
+
+      # CircuitBreaker usado en TelaFeing.listarTodas(...)
+      listarTodasTelasCB:
+        baseConfig: default
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+        minimumNumberOfCalls: 3
+
+      # CircuitBreaker usado en ProductoFeign.buscarCategoria(...)
+      categoriaListarPorIdCB:
+        baseConfig: default
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+        minimumNumberOfCalls: 3
+
+      # CircuitBreaker usado en ProductoFeign.listarTodos(...)
+      listarTodosProductosCB:
+        baseConfig: default
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+        minimumNumberOfCalls: 3
+
+      # CircuitBreaker usado en ClienteFeign.buscarCategoria(...)
+      categoriaListarPorIdCB-cliente:
+        baseConfig: default
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+        minimumNumberOfCalls: 3
