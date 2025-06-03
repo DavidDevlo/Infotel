@@ -27,7 +27,7 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8090/eureka
   instance:
-    hostname: localhost}
+    hostname: localhost
 resilience4j.circuitbreaker:
   instances:
     categoriaListarPorIdCB:
