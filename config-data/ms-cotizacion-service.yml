@@ -1,11 +1,13 @@
+
 server:
-  port: 8083
+  port: 8086
 spring:
   application:
-    name: ms-pedido-service
+    name: ms-cotizacion-service
+
 
   datasource:
-    url: jdbc:h2:mem:ms_pedido
+    url: jdbc:h2:mem:ms_cotizacion
     driver-class-name: org.h2.Driver
     username: sa
     password: password
@@ -27,7 +29,8 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8090/eureka
   instance:
-    hostname: localhost}
+    hostname: localhost
+
 resilience4j.circuitbreaker:
   instances:
     categoriaListarPorIdCB:
